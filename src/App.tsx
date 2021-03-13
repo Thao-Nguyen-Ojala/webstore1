@@ -1,24 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useEffect } from 'react';
+import { Link, Route, Switch } from 'react-router-dom';
 import './App.css';
+import NotFound from './components/NotFound/NotFound';
+import AlbumPage from './features/Album/pages/AlbumPage';
+import TodoPage from './features/Todo/pages/TodoPage';
+import categoryApi from './api/categoryApi';
+import Counter from './features/Counter/Counter';
+import { Header } from './components';
 
 function App() {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const category = await categoryApi.getAll();
+      console.log(category);
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Header />
+      <p>
+        <Link to='/todo'>Todo</Link>
+      </p>
+      <p>
+        <Link to='/album'>Album</Link>
+      </p>
+      <Switch>
+        {/*<Route path='/' component={TodoPage} exact />*/}
+        <Route path='/' component={Counter} exact />
+        <Route path='/todos' component={TodoPage} />
+        <Route path='/albums' component={AlbumPage} />
+
+        <Route component={NotFound} />
+      </Switch>
     </div>
   );
 }
