@@ -16,9 +16,8 @@ export default function LogIn({ closeDialog }: logInPropsType) {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (values: logInFormType) => {
+    console.log('logIn value', values);
     try {
-      //auto set username = email
-
       const action = logIn(values);
 
       const resultAction = await dispatch(action);
@@ -28,7 +27,6 @@ export default function LogIn({ closeDialog }: logInPropsType) {
         closeDialog();
       }
     } catch (error) {
-      console.log('Fail to login', error);
       enqueueSnackbar(error.message, { variant: 'error' });
     }
   };

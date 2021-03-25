@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { InputField } from '../../../../components';
 import PasswordField from '../../../../components/form-controls/InputField/PasswordField';
-import { useStyles } from './RegisterFormUseStyleHook';
+import { useStyles } from './LogInFormUseStyleHook';
 
 type logInFormProps = {
   onSubmit(formValue: formValueObj): void;

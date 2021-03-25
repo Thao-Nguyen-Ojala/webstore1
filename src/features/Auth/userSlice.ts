@@ -1,35 +1,32 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "../../api/userApi";
-import {resgisterFormType, logInFormType} from '../../interfaces'
+import { StorageKeys } from "../../constants/storage-keys";
+import { logInFormType, resgisterFormType, UserState, UserLoggedOut } from '../../interfaces';
 
-interface UserState {
-  current: {},
-  settings: {}
-}
 
+
+const userStorageData = localStorage.getItem(StorageKeys.USER)
 const initialState: UserState = {
-  current: {},
+  current: userStorageData ? JSON.parse(userStorageData) : {},
   settings: {}
 }
 
 export const register = createAsyncThunk(
-  'users/register',
+  'user/register',
   async (payload:resgisterFormType) => {
     const res = await userApi.register(payload);
-    console.log(res)
     //save data to local storage
 
-    localStorage.setItem('access_token', res.data.jwt);
-    localStorage.setItem('user', JSON.stringify(res.data.user))
+    localStorage.setItem(StorageKeys.TOKEN, res.data.jwt);
+    localStorage.setItem(StorageKeys.USER, JSON.stringify(res.data.user))
     return res.data.user
   }
 )
 
 export const logIn = createAsyncThunk(
-  'users/register',
+  'user/login',
   async (payload:logInFormType) => {
     const res = await userApi.logIn(payload);
-    console.log(res)
     //save data to local storage
 
     localStorage.setItem('access_token', res.data.jwt);
@@ -43,27 +40,22 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateUser: (state, action: PayloadAction<any>) => {
-      state.current = action.payload
+    logout: (state: UserState | undefined) => {
+      localStorage.removeItem(StorageKeys.USER)
+      localStorage.removeItem(StorageKeys.TOKEN)
+      state = undefined
     }
   },
-  /*
   extraReducers: builder => {
-    function sharedReducer(state: any, action: any) {
-      state.current = action.payload
-    }
-    builder.addCase(register.fulfilled, sharedReducer).addCase(logIn.fulfilled, sharedReducer) 
     builder.addCase(register.fulfilled, (state, action) => {
       state.current = action.payload
     })
-
     builder.addCase(logIn.fulfilled, (state, action) => {
       state.current = action.payload
-   
-  })
-}*/
+    })
+}
 })
 
-export const { updateUser } = userSlice.actions
-const {reducer} = userSlice;
+const {actions, reducer} = userSlice;
+export const {logout} = actions
 export default reducer

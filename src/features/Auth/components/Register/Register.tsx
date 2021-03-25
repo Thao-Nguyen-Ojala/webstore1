@@ -1,6 +1,6 @@
 import React from 'react';
 import RegisterForm from '../RegisterForm/RegisterForm';
-import { register, updateUser } from '../../userSlice';
+import { register } from '../../userSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { resgisterFormType } from '../../../../interfaces';
 import { AppDispatch } from '../../../../app/store';
@@ -21,15 +21,14 @@ export default function Register({ closeDialog }: registerPropsType) {
       //auto set username = email
       values.username = values.email;
 
-      /*
       const action = register(values);
       const resultAction = await dispatch(action);
       unwrapResult(resultAction);
-      */
-      const res = await userApi.register(values);
+
+      /*const res = await userApi.register(values);
       localStorage.setItem('access_token', res.data.jwt);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      dispatch(updateUser(res.data.user));
+      dispatch(updateUser(res.data.user));*/
 
       enqueueSnackbar('Register successfully!', { variant: 'success' });
 
