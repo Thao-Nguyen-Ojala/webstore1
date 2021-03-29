@@ -20,9 +20,6 @@ export default function ProductSort({ onChange, currentSort }: ProductSortProps)
     >
       <Tab label='Low to high' value='salePrice:ASC'></Tab>
       <Tab label='High to low' value='salePrice:DESC'></Tab>
-      <Tab></Tab>
-      <Tab></Tab>
-      <Tab></Tab>
     </Tabs>
   );
 }

@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Header } from './components';
 import NotFound from './components/NotFound/NotFound';
@@ -11,15 +11,10 @@ function App() {
   return (
     <div className='App'>
       <Header />
-      {/*<p>
-        <Link to='/todo'>Todo</Link>
-      </p>
-      <p>
-        <Link to='/album'>Album</Link>
-      </p>*/}
       <Switch>
-        {/*<Route path='/' component={TodoPage} exact />*/}
-        <Route path='/' component={Counter} exact />
+        <Route path='/' component={Counter} exact>
+          <Redirect to='/products' />
+        </Route>
         <Route path='/todos' component={TodoPage} />
         <Route path='/albums' component={AlbumPage} />
         <Route path='/products' component={ProductsPage} />

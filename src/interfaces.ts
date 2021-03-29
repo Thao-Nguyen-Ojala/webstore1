@@ -69,3 +69,11 @@ export interface serviceValuesType {
   isPromotion: boolean,
   isFreeShip: boolean,
 }
+
+export interface filtersType {
+  _page?: number,
+  _limit?: number,
+  _sort?: string,
+  isFreeShip?: boolean,
+  'category.id'?: number,
+}

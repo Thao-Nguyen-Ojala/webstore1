@@ -1,12 +1,16 @@
 import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
 import productApi from '../../../api/productApi';
-import { PaginationType, ProductListType } from '../../../interfaces';
+import { DEFAULT_PAGINATION_lIMIT, DEFAULT_PAGINATION_PAGE } from '../../../constants';
+import { ProductListType } from '../../../interfaces';
+import FilterView from '../components/FilterView';
 import ProductFilter from '../components/ProductFilter';
 import ProductList from '../components/ProductList';
 import ProductSkeletonList from '../components/ProductSkeletonList';
 import ProductSort from '../components/ProductSort';
+import queryString from 'query-string';
 
 const useStyle = makeStyles((theme) => ({
   root: {},
@@ -27,19 +31,30 @@ const useStyle = makeStyles((theme) => ({
 
 export default function ListPage() {
   const classes = useStyle();
+  const history = useHistory();
   const [productList, setProductList] = useState<ProductListType[]>([]);
-  /*const [pagination, setPagination] = useState<PaginationType>({
-    limit: 9,
-    page: 2,
-    total: 10,
-  });*/
+
+  const location = useLocation();
+  const queryParams = queryString.parse(location.search);
+  console.log('query', queryParams);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({
-    _page: 1,
-    _limit: 9,
-    _sort: 'salePrice:ASC',
-  });
-  const [total, setTotal] = useState(10);
+
+  const [filters, setFilters] = useState(() => ({
+    ...queryParams,
+    _page: queryParams._page ? Number.parseInt(String(queryParams._page)) : DEFAULT_PAGINATION_PAGE,
+    _limit: queryParams._limit ? Number.parseInt(String(queryParams._limit)) : DEFAULT_PAGINATION_lIMIT,
+    _sort: queryParams._sort ? String(queryParams._sort) : 'salePrice:ASC',
+  }));
+
+  const [totalPage, setTotalPage] = useState(10);
+
+  useEffect(() => {
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
+  }, [history, filters]);
+
   useEffect(() => {
     (async () => {
       try {
@@ -48,8 +63,7 @@ export default function ListPage() {
           pagination,
         } = await productApi.getAll(filters);
         setProductList(data);
-        setTotal(pagination.total);
-        //setPagination(pagination);
+        setTotalPage(pagination.total);
       } catch (error) {
         console.log('failed to fetch product list');
       }
@@ -76,6 +90,10 @@ export default function ListPage() {
     }));
   };
 
+  const setNewFilters = (newFilters: any) => {
+    setFilters(newFilters);
+  };
+
   console.log('filters on ListPage', filters);
   return (
     <div>
@@ -89,11 +107,12 @@ export default function ListPage() {
             </Grid>
             <Grid item className={classes.right}>
               <Paper elevation={0}>
+                <FilterView filters={filters} onChange={setNewFilters} />
                 <ProductSort currentSort={filters._sort} onChange={handleSortChange} />
                 {loading ? <ProductSkeletonList /> : <ProductList productList={productList} />}
                 <Box className={classes.pagination}>
                   <Pagination
-                    count={Math.ceil(total / filters._limit)}
+                    count={Math.ceil(totalPage / filters._limit)}
                     page={filters._page}
                     color='primary'
                     onChange={handlePageChange}
