@@ -47,7 +47,6 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
         onRemove: () => {},
         onToggle: (filtes) => {
           const newFilters = { ...filters };
-          console.log('new filter, onToggle', newFilters);
           if (newFilters.isFreeShip) {
             delete newFilters.isFreeShip;
           } else {
