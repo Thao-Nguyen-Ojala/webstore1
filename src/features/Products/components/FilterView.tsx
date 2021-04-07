@@ -75,7 +75,12 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
         isVisible: (filters) =>
           Object.keys(filters).includes('salePrice_lte') && Object.keys(filters).includes('salePrice_gte'),
         isRemovable: true,
-        onRemove: () => false,
+        onRemove: (filters) => {
+          const newFilters = { ...filters };
+          delete newFilters.salePrice_gte;
+          delete newFilters.salePrice_lte;
+          return newFilters;
+        },
         onToggle: () => {},
       },
       {
@@ -84,7 +89,11 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
         isActive: () => true,
         isVisible: (filters) => Object.keys(filters).includes('category.id'),
         isRemovable: true,
-        onRemove: () => false,
+        onRemove: (filters) => {
+          const newFilters = { ...filters };
+          delete newFilters['category.id'];
+          return newFilters;
+        },
         onToggle: () => {},
       },
     ];
@@ -104,9 +113,7 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
                 ? () => {}
                 : () => {
                     if (!onChange) return;
-                    console.log('toggle');
                     const newFilters = x.onToggle(filters);
-                    console.log(filters, 'asd', newFilters);
                     onChange(newFilters);
                   }
             }
@@ -114,9 +121,7 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
               x.isRemovable
                 ? () => {
                     if (!onChange) return;
-                    console.log('toggle');
                     const newFilters = x.onRemove(filters);
-                    console.log(filters, 'asd', newFilters);
                     onChange(newFilters);
                   }
                 : undefined
