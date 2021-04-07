@@ -102,7 +102,7 @@ export default function ListPage() {
           <Grid container spacing={1}>
             <Grid item className={classes.left}>
               <Paper elevation={0}>
-                <ProductFilter filters={filters} onChange={handleFilterChange}></ProductFilter>
+                <ProductFilter filters={filters} onChange={handleFilterChange} />
               </Paper>
             </Grid>
             <Grid item className={classes.right}>
