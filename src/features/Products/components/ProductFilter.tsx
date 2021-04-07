@@ -14,6 +14,7 @@ export default function ProductFilter({ filters, onChange }: ProductFilterType) 
   const handleCategoryChange = (newCategoryId: any) => {
     if (!onChange) return;
 
+    console.log('category');
     const newFilters = {
       'category.id': newCategoryId,
     };
@@ -21,6 +22,7 @@ export default function ProductFilter({ filters, onChange }: ProductFilterType) 
   };
 
   const handleChange = (values: priceRangeValuesType | serviceValuesType) => {
+    console.log('handleChange', values);
     if (onChange) onChange(values);
   };
   return (

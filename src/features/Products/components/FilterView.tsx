@@ -61,7 +61,7 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
         getLabel: () => 'On Sale',
         isActive: () => true,
         isVisible: (filters) => Object.keys(filters).includes('isPromotion'),
-        isRemovable: false,
+        isRemovable: true,
         onRemove: (filters) => {
           const newFilters = { ...filters };
           delete newFilters.isPromotion;
@@ -75,7 +75,7 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
         isActive: () => true,
         isVisible: (filters) =>
           Object.keys(filters).includes('salePrice_lte') && Object.keys(filters).includes('salePrice_gte'),
-        isRemovable: false,
+        isRemovable: true,
         onRemove: () => false,
         onToggle: () => {},
       },
@@ -84,7 +84,7 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
         getLabel: () => 'Category',
         isActive: () => true,
         isVisible: (filters) => Object.keys(filters).includes('category.id'),
-        isRemovable: false,
+        isRemovable: true,
         onRemove: () => false,
         onToggle: () => {},
       },
@@ -105,8 +105,9 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
                 ? () => {}
                 : () => {
                     if (!onChange) return;
+                    console.log('toggle');
                     const newFilters = x.onToggle(filters);
-                    console.log('aaaaaaaa');
+                    console.log(filters, 'asd', newFilters);
                     onChange(newFilters);
                   }
             }
@@ -114,7 +115,9 @@ export default function FilterView({ filters = {}, onChange }: FilterViewType) {
               x.isRemovable
                 ? () => {
                     if (!onChange) return;
+                    console.log('toggle');
                     const newFilters = x.onRemove(filters);
+                    console.log(filters, 'asd', newFilters);
                     onChange(newFilters);
                   }
                 : undefined
