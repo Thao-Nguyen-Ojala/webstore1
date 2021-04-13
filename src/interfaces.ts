@@ -43,6 +43,10 @@ export interface ProductListResponse {
   pagination: PaginationType
 }
 
+export interface SingleProductResponse {
+  data: ProductListType
+}
+
 export interface ProductListType {
     category: {},
     description: string,
