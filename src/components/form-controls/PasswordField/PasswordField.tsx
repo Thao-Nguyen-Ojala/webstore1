@@ -10,14 +10,15 @@ import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 
 type PasswordFieldProps = {
-  form: { control: any; errors: any; formState: any };
+  form: { control: any; formState: { errors: any } };
   name: string;
   label: string;
   disable?: boolean;
 };
 
 const PasswordField = ({ form, name, label, disable }: PasswordFieldProps) => {
-  const { errors } = form;
+  const { formState } = form;
+  const { errors } = formState;
   const hasError = errors[name];
   const [showPassword, setShowPassword] = useState(false);
 
@@ -28,20 +29,26 @@ const PasswordField = ({ form, name, label, disable }: PasswordFieldProps) => {
     <FormControl error={hasError} fullWidth margin='normal' variant='outlined'>
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <Controller
-        name={name}
+        name={`${name}` as const}
         control={form.control}
-        as={OutlinedInput}
-        id={name}
-        type={showPassword ? 'text' : 'password'}
-        label={label} /*cheat way to fit the ui bug (line over some of the text)*/
-        endAdornment={
-          <InputAdornment position='end'>
-            <IconButton aria-label='toggle password visibility' onClick={toggleShowPassword} edge='end'>
-              {showPassword ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </InputAdornment>
-        }
-        disabled={disable}
+        render={({ field: { onChange, onBlur, value, name } }) => (
+          <OutlinedInput
+            id={name}
+            type={showPassword ? 'text' : 'password'}
+            label={label} /*cheat way to fit the ui bug (line over some of the text)*/
+            endAdornment={
+              <InputAdornment position='end'>
+                <IconButton aria-label='toggle password visibility' onClick={toggleShowPassword} edge='end'>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+            disabled={disable}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+          />
+        )}
       />
 
       {hasError && <FormHelperText>{errors[name]?.message}</FormHelperText>}

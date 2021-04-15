@@ -3,29 +3,36 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 
 type InputFieldProps = {
-  form: { control: any; errors: any; formState: any };
+  form: { control: any; formState: { errors: any } };
   name: string;
   label: string;
   disable?: boolean;
 };
 
 const InputField = ({ form, name, label, disable }: InputFieldProps) => {
-  const { errors } = form;
+  const { formState } = form;
+  const { errors } = formState;
   const hasError = errors[name];
 
   return (
     <Controller
-      name={name}
+      name={`${name}` as const}
       control={form.control}
-      as={TextField}
-      margin='normal'
-      variant='outlined'
-      fullWidth
-      label={label}
-      disabled={disable}
-      error={hasError}
-      helperText={errors[name]?.message}
-      //?. errors[name] is optional
+      render={({ field: { onChange, onBlur, value, name } }) => (
+        <TextField
+          margin='normal'
+          variant='outlined'
+          fullWidth
+          label={label}
+          disabled={disable}
+          error={hasError}
+          helperText={errors[name]?.message}
+          name={name}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      )}
     />
   );
 };

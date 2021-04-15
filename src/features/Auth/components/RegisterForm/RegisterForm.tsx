@@ -5,7 +5,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { InputField } from '../../../../components';
-import PasswordField from '../../../../components/form-controls/InputField/PasswordField';
+import PasswordField from '../../../../components/form-controls/PasswordField/PasswordField';
 import { useStyles } from './RegisterFormUseStyleHook';
 
 type RegisterFormProps = {

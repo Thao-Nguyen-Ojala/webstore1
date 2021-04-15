@@ -3,6 +3,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { STATIC_HOST, THUMBNAIL_PLACEHOLDER } from '../../../constants';
 import { ProductListType } from '../../../interfaces';
+import { formatPriceVND } from '../../../utils';
 
 type ProductPropsType = {
   product: ProductListType;
@@ -21,7 +22,7 @@ export default function Product({ product }: ProductPropsType) {
       <Typography variant='body2'>{product.name}</Typography>
       <Typography variant='body2'>
         <Box component='span' fontSize='16px' fontWeight='bold' mr={1}>
-          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.salePrice)}
+          {formatPriceVND(product.salePrice)}
         </Box>
         {product.promotionPercent > 0 ? ` -${product.promotionPercent}%` : ''}
       </Typography>

@@ -57,6 +57,7 @@ export interface ProductListType {
     promotionPercent: number,
     salePrice: number,
     shortDescription: string,
+    originalPrice: number,
     thumbnail: {
       url: string | null
     },
@@ -80,4 +81,8 @@ export interface filtersType {
   _sort?: string,
   isFreeShip?: boolean,
   'category.id'?: number,
+}
+
+export interface AddToCartQuantity {
+  quantity: number;
 }

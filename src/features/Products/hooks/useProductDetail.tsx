@@ -15,7 +15,7 @@ export default function useProductDetail(productId: string) {
       } catch (error) {
         console.log('Failed to fetch product', error);
       }
-      setLoading(true);
+      setLoading(false);
     })();
   }, [productId]);
 
