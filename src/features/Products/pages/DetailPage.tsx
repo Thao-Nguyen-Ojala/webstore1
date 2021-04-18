@@ -1,11 +1,16 @@
-import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import React from 'react';
 import { useRouteMatch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
+import ProductDesAddionalReview from '../components/ProductDesAddionalReview/ProductDesAddionalReview';
 import ProductInfo from '../components/ProductInfo';
 import ProductThumbnail from '../components/ProductThumbnail';
 import useProductDetail from '../hooks/useProductDetail';
+import { Switch, Route } from 'react-router-dom';
+import ProductDescription from '../components/ProductDesAddionalReview/ProductDescription';
+import ProductAdditional from '../components/ProductDesAddionalReview/ProductAdditional';
+import ProductReview from '../components/ProductDesAddionalReview/ProductReview';
 
 const useStyle = makeStyles((theme) => ({
   root: {},
@@ -18,6 +23,10 @@ const useStyle = makeStyles((theme) => ({
     flex: '1 1 0',
     padding: theme.spacing(1.5),
   },
+  loading: {
+    left: 0,
+    width: '100%',
+  },
 }));
 
 type paramsType = {
@@ -26,6 +35,7 @@ type paramsType = {
 
 export default function DetailPage() {
   const classes = useStyle();
+  const { url } = useRouteMatch();
 
   const {
     params: { productId },
@@ -41,15 +51,20 @@ export default function DetailPage() {
       <Container>
         <Paper elevation={0}>
           {loading ? (
-            <Grid container>
-              <Grid item className={classes.left}>
-                <Skeleton variant='rect' width={375} height={375} />
+            <>
+              <Box className={classes.loading}>
+                <LinearProgress />
+              </Box>
+              <Grid container>
+                <Grid item className={classes.left}>
+                  <Skeleton variant='rect' width={375} height={375} />
+                </Grid>
+                <Grid item className={classes.right}>
+                  <Skeleton variant='text' width='60%' />
+                  <Skeleton variant='text' width='100%' />
+                </Grid>
               </Grid>
-              <Grid item className={classes.right}>
-                <Skeleton variant='text' width='60%' />
-                <Skeleton variant='text' width='100%' />
-              </Grid>
-            </Grid>
+            </>
           ) : (
             <Grid container>
               <Grid item className={classes.left}>
@@ -62,6 +77,16 @@ export default function DetailPage() {
             </Grid>
           )}
         </Paper>
+        <ProductDesAddionalReview />
+
+        <Switch>
+          <Route exact path={url}>
+            <ProductDescription product={product} />
+          </Route>
+          <Route exact path={`${url}/additional`} component={ProductAdditional} />
+
+          <Route exact path={`${url}/review`} component={ProductReview} />
+        </Switch>
       </Container>
     </Box>
   );
