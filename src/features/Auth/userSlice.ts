@@ -3,8 +3,6 @@ import userApi from "../../api/userApi";
 import { StorageKeys } from "../../constants/storage-keys";
 import { logInFormType, resgisterFormType, UserState, UserLoggedOut } from '../../interfaces';
 
-
-
 const userStorageData = localStorage.getItem(StorageKeys.USER)
 const initialState: UserState = {
   current: userStorageData ? JSON.parse(userStorageData) : {},

@@ -1,12 +1,11 @@
-import React from 'react';
-import RegisterForm from '../RegisterForm/RegisterForm';
-import { register } from '../../userSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { resgisterFormType } from '../../../../interfaces';
-import { AppDispatch } from '../../../../app/store';
-import { useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import userApi from '../../../../api/userApi';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../../app/store';
+import { resgisterFormType } from '../../../../interfaces';
+import { register } from '../../userSlice';
+import RegisterForm from '../RegisterForm/RegisterForm';
 
 type registerPropsType = {
   closeDialog: () => void;

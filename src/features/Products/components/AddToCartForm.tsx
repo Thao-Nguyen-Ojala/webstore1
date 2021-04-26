@@ -32,7 +32,7 @@ export default function AddToCartForm({ onSubmit }: AddToCartFormPropType) {
       await onSubmit(submitValue);
     }
   };
-  const { isSubmitting } = form.formState;
+  //const { isSubmitting } = form.formState;
   return (
     <div>
       <form onSubmit={handleSubmit(handleOnSubmit)}>

@@ -11,6 +11,9 @@ import { Switch, Route } from 'react-router-dom';
 import ProductDescription from '../components/ProductDesAddionalReview/ProductDescription';
 import ProductAdditional from '../components/ProductDesAddionalReview/ProductAdditional';
 import ProductReview from '../components/ProductDesAddionalReview/ProductReview';
+import { useDispatch } from 'react-redux';
+import { addToCart, showMiniCart } from '../../Cart/cartSlice';
+import { AddToCartQuantity } from '../../../interfaces';
 
 const useStyle = makeStyles((theme) => ({
   root: {},
@@ -36,6 +39,7 @@ type paramsType = {
 export default function DetailPage() {
   const classes = useStyle();
   const { url } = useRouteMatch();
+  const dispatch = useDispatch();
 
   const {
     params: { productId },
@@ -43,8 +47,21 @@ export default function DetailPage() {
 
   const { product, loading } = useProductDetail(productId);
 
-  const handleAddToCartSubmit = (values: any) => {
-    console.log('submit add to cart', values);
+  const handleAddToCartSubmit = ({ quantity }: AddToCartQuantity) => {
+    console.log('submit add to cart', quantity);
+    const action = addToCart({
+      id: product?.id,
+      product,
+      quantity,
+    });
+
+    const showMiniCartAction = showMiniCart();
+
+    console.log('action', action);
+    dispatch(action);
+
+    console.log('action2', showMiniCartAction);
+    dispatch(showMiniCartAction);
   };
   return (
     <Box className={classes.root}>

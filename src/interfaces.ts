@@ -86,3 +86,13 @@ export interface filtersType {
 export interface AddToCartQuantity {
   quantity: number;
 }
+
+export interface CartState {
+  value: number,
+  showMiniCart: boolean,
+  cartItems: {
+    id?: string,
+    product?: {},
+    quantity?: number
+  }[]
+}

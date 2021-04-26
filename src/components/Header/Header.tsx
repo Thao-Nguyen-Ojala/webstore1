@@ -1,19 +1,22 @@
-import { Box, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Badge, Box, IconButton, Menu, MenuItem } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { AccountCircle, Close } from '@material-ui/icons';
+import { AccountCircle, Close, ShoppingCart } from '@material-ui/icons';
 import CodeIcon from '@material-ui/icons/Code';
+import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import LogIn from '../../features/Auth/components/Login/Login';
 import Register from '../../features/Auth/components/Register/Register';
 import { logout } from '../../features/Auth/userSlice';
-import { UserState } from '../../interfaces';
+import CartNoti from '../../features/Cart/CartNoti';
+import { cartItemsCountSelector } from '../../features/Cart/selectors';
+import { CartState, UserState } from '../../interfaces';
 import { useStyles } from './HeaderUseStyleHook';
 
 const MODE = {
@@ -23,12 +26,15 @@ const MODE = {
 
 interface RootState {
   user: UserState;
+  cart: CartState;
 }
 
 export default function Header() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const loggedInUser = useSelector((state: RootState) => state.user.current);
+  const cartItemsCount = useSelector(cartItemsCountSelector);
+  const miniCartOpen = useSelector((state: RootState) => state.cart.showMiniCart);
   const isLoggedIn = !!loggedInUser.id;
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
@@ -79,6 +85,18 @@ export default function Header() {
               Login
             </Button>
           )}
+
+          <MenuItem>
+            <IconButton aria-label='cart' color='inherit'>
+              <Badge badgeContent={cartItemsCount} color='secondary'>
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+            <p>Messages</p>
+          </MenuItem>
+
+          {miniCartOpen && <CartNoti />}
+
           {isLoggedIn && (
             <IconButton color='inherit' onClick={handleUserClick}>
               <AccountCircle />
