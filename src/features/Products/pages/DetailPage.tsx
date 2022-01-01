@@ -1,19 +1,20 @@
-import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
-import React from 'react';
-import { useRouteMatch } from 'react-router';
-import AddToCartForm from '../components/AddToCartForm';
-import ProductDesAddionalReview from '../components/ProductDesAddionalReview/ProductDesAddionalReview';
-import ProductInfo from '../components/ProductInfo';
-import ProductThumbnail from '../components/ProductThumbnail';
-import useProductDetail from '../hooks/useProductDetail';
-import { Switch, Route } from 'react-router-dom';
-import ProductDescription from '../components/ProductDesAddionalReview/ProductDescription';
-import ProductAdditional from '../components/ProductDesAddionalReview/ProductAdditional';
-import ProductReview from '../components/ProductDesAddionalReview/ProductReview';
-import { useDispatch } from 'react-redux';
+import { Box, Container, Grid, LinearProgress, Paper, makeStyles } from '@material-ui/core';
+import { Route, Switch } from 'react-router-dom';
 import { addToCart, showMiniCart } from '../../Cart/cartSlice';
+
+import AddToCartForm from '../components/AddToCartForm';
 import { AddToCartQuantity } from '../../../interfaces';
+import ProductAdditional from '../components/ProductDesAddionalReview/ProductAdditional';
+import ProductDesAddionalReview from '../components/ProductDesAddionalReview/ProductDesAddionalReview';
+import ProductDescription from '../components/ProductDesAddionalReview/ProductDescription';
+import ProductInfo from '../components/ProductInfo';
+import ProductReview from '../components/ProductDesAddionalReview/ProductReview';
+import ProductThumbnail from '../components/ProductThumbnail';
+import React from 'react';
+import { Skeleton } from '@material-ui/lab';
+import { useDispatch } from 'react-redux';
+import useProductDetail from '../hooks/useProductDetail';
+import { useRouteMatch } from 'react-router';
 
 const useStyle = makeStyles((theme) => ({
   root: {},
@@ -48,7 +49,6 @@ export default function DetailPage() {
   const { product, loading } = useProductDetail(productId);
 
   const handleAddToCartSubmit = ({ quantity }: AddToCartQuantity) => {
-    console.log('submit add to cart', quantity);
     const action = addToCart({
       id: product?.id,
       product,
@@ -57,10 +57,7 @@ export default function DetailPage() {
 
     const showMiniCartAction = showMiniCart();
 
-    console.log('action', action);
     dispatch(action);
-
-    console.log('action2', showMiniCartAction);
     dispatch(showMiniCartAction);
   };
   return (

@@ -3,3 +3,4 @@ export const THUMBNAIL_PLACEHOLDER = 'https://via.placeholder.com/444'
 export const DEFAULT_PAGINATION_PAGE = 1
 export const DEFAULT_PAGINATION_lIMIT = 9
 export const DEFAULT_PAGINATION_TOTAL = 10
+export const DEFAULT_SALEPRICE_SORT = 'salePrice:ASC'

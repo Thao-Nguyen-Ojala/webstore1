@@ -96,3 +96,18 @@ export interface CartState {
     quantity?: number
   }[]
 }
+
+export interface FILTER_LIST_TYPE {
+  id: number;
+  getLabel: (filters: any) => string;
+  isActive: (filters?: any) => boolean | undefined;
+  isVisible: (filters?: any) => boolean;
+  isRemovable: boolean;
+  onRemove: (filters?: any) => void;
+  onToggle: (filtes: any) => void;
+}
+
+export interface FilterViewType {
+  filters: filtersType;
+  onChange: (newFilters: any) => void;
+}

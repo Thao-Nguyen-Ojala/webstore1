@@ -1,6 +1,6 @@
-import { TextField } from '@material-ui/core';
-import React from 'react';
 import { Controller } from 'react-hook-form';
+import React from 'react';
+import { TextField } from '@material-ui/core';
 
 type InputFieldProps = {
   form: { control: any; formState: { errors: any } };

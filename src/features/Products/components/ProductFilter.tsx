@@ -1,9 +1,10 @@
-import { Box } from '@material-ui/core';
-import React from 'react';
 import { priceRangeValuesType, serviceValuesType } from '../../../interfaces';
+
+import { Box } from '@material-ui/core';
 import FilterByCategory from './Filters/FilterByCategory';
 import FilterByPrice from './Filters/FilterByPrice';
 import FilterByService from './Filters/FilterByService';
+import React from 'react';
 
 interface ProductFilterType {
   filters: {};
@@ -14,7 +15,6 @@ export default function ProductFilter({ filters, onChange }: ProductFilterType) 
   const handleCategoryChange = (newCategoryId: any) => {
     if (!onChange) return;
 
-    console.log('category');
     const newFilters = {
       'category.id': newCategoryId,
     };

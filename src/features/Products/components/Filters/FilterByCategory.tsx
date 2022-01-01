@@ -1,7 +1,8 @@
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import { Box, Typography, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import categoryApi from '../../../../api/categoryApi';
+
 import FilterByCategorySkeleton from './FilterByCategorySkeleton';
+import categoryApi from '../../../../api/categoryApi';
 
 interface FilterByCategoryProps {
   onChange: (newValue: any) => void;
@@ -49,8 +50,6 @@ export default function FilterByCategory({ onChange }: FilterByCategoryProps) {
       }
     })();
   }, []);
-
-  console.log('data', categoryList);
 
   const handleCategoryClick = (category: CategoryDataType) => {
     if (onChange) {

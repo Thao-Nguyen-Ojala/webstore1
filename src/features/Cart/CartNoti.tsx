@@ -1,9 +1,9 @@
-import { Button, Dialog, IconButton, makeStyles, Paper, Snackbar, Typography } from '@material-ui/core';
+import { Button, Paper, Snackbar, Typography, makeStyles } from '@material-ui/core';
+
 import React from 'react';
-import { useHistory } from 'react-router';
-import CloseIcon from '@material-ui/icons/Close';
-import { useDispatch } from 'react-redux';
 import { hideMiniCart } from './cartSlice';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 
 const useStyle = makeStyles((theme) => ({
   root: {

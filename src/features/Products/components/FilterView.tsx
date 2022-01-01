@@ -1,11 +1,7 @@
 import { Box, Chip, makeStyles } from '@material-ui/core';
+import { FILTER_LIST_TYPE, FilterViewType } from '../../../interfaces';
 import React, { useMemo } from 'react';
-import { filtersType } from '../../../interfaces';
-
-interface FilterViewType {
-  filters: filtersType;
-  onChange: (newFilters: any) => void;
-}
+import { getCategoryFilter, getFreeShippingFilter, getOnSaleFilter, getPriceRangeFilter } from '../../../utils/filterUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,82 +20,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface FILTER_LIST_TYPE {
-  id: number;
-  getLabel: (filters: any) => string;
-  isActive: (filters: any) => boolean;
-  isVisible: (filters?: any) => boolean;
-  isRemovable: boolean;
-  onRemove: (filters?: any) => void;
-  onToggle: (filtes: any) => void;
-}
-
 export default function FilterView({ filters = {}, onChange }: FilterViewType) {
   const classes = useStyles();
   const visibleFilters = useMemo(() => {
     const FILTER_LIST: FILTER_LIST_TYPE[] = [
-      {
-        id: 1,
-        getLabel: () => 'FreeShip',
-        isActive: (filters) => filters.isFreeShip,
-        isVisible: () => true,
-        isRemovable: false,
-        onRemove: () => {},
-        onToggle: (filtes) => {
-          const newFilters = { ...filters };
-          if (newFilters.isFreeShip) {
-            delete newFilters.isFreeShip;
-          } else {
-            newFilters.isFreeShip = true;
-          }
-          return newFilters;
-        },
-      },
-      {
-        id: 2,
-        getLabel: () => 'On Sale',
-        isActive: () => true,
-        isVisible: (filters) => Object.keys(filters).includes('isPromotion'),
-        isRemovable: true,
-        onRemove: (filters) => {
-          const newFilters = { ...filters };
-          delete newFilters.isPromotion;
-          return newFilters;
-        },
-        onToggle: () => {},
-      },
-      {
-        id: 3,
-        getLabel: () => 'Price range',
-        isActive: () => true,
-        isVisible: (filters) =>
-          Object.keys(filters).includes('salePrice_lte') && Object.keys(filters).includes('salePrice_gte'),
-        isRemovable: true,
-        onRemove: (filters) => {
-          const newFilters = { ...filters };
-          delete newFilters.salePrice_gte;
-          delete newFilters.salePrice_lte;
-          return newFilters;
-        },
-        onToggle: () => {},
-      },
-      {
-        id: 4,
-        getLabel: () => 'Category',
-        isActive: () => true,
-        isVisible: (filters) => Object.keys(filters).includes('category.id'),
-        isRemovable: true,
-        onRemove: (filters) => {
-          const newFilters = { ...filters };
-          delete newFilters['category.id'];
-          return newFilters;
-        },
-        onToggle: () => {},
-      },
+      getFreeShippingFilter(),
+      getOnSaleFilter(),
+      getPriceRangeFilter(),
+      getCategoryFilter()
     ];
-
     return FILTER_LIST.filter((x) => x.isVisible(filters));
   }, [filters]);
+  
   return (
     <Box component='ul' className={classes.root}>
       {visibleFilters.map((x) => (

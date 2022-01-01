@@ -1,12 +1,11 @@
-import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
+
+import { Redirect, Route, Switch } from 'react-router-dom';
+
+import Counter from './features/Counter/Counter';
 import { Header } from './components';
 import NotFound from './components/NotFound/NotFound';
-import AlbumPage from './features/Album/pages/AlbumPage';
-import Cart from './features/Cart/Cart';
-import Counter from './features/Counter/Counter';
 import ProductsPage from './features/Products/ProductsPage';
-import TodoPage from './features/Todo/pages/TodoPage';
 
 function App() {
   return (
@@ -16,9 +15,7 @@ function App() {
         <Route path='/' component={Counter} exact>
           <Redirect to='/products' />
         </Route>
-        <Route path='/todos' component={TodoPage} />
-        <Route path='/cart' component={Cart} />
-        <Route path='/albums' component={AlbumPage} />
+        {/*<Route path='/albums' component={AlbumPage} />*/}
         <Route path='/products' component={ProductsPage} />
 
         <Route component={NotFound} />

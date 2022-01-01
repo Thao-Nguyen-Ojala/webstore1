@@ -1,15 +1,16 @@
-import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
+import { Box, Container, Grid, Paper, makeStyles } from '@material-ui/core';
+import { DEFAULT_PAGINATION_PAGE, DEFAULT_PAGINATION_lIMIT, DEFAULT_SALEPRICE_SORT } from '../../../constants';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
-import productApi from '../../../api/productApi';
-import { DEFAULT_PAGINATION_lIMIT, DEFAULT_PAGINATION_PAGE } from '../../../constants';
-import { ProductListType } from '../../../interfaces';
+
 import FilterView from '../components/FilterView';
+import { Pagination } from '@material-ui/lab';
 import ProductFilter from '../components/ProductFilter';
 import ProductList from '../components/ProductList';
+import { ProductListType } from '../../../interfaces';
 import ProductSkeletonList from '../components/ProductSkeletonList';
 import ProductSort from '../components/ProductSort';
+import productApi from '../../../api/productApi';
 import queryString from 'query-string';
 
 const useStyle = makeStyles((theme) => ({
@@ -32,6 +33,7 @@ const useStyle = makeStyles((theme) => ({
 export default function ListPage() {
   const classes = useStyle();
   const history = useHistory();
+  console.log('history', history)
   const [productList, setProductList] = useState<ProductListType[]>([]);
 
   const location = useLocation();
@@ -43,7 +45,7 @@ export default function ListPage() {
     ...queryParams,
     _page: queryParams._page ? Number.parseInt(String(queryParams._page)) : DEFAULT_PAGINATION_PAGE,
     _limit: queryParams._limit ? Number.parseInt(String(queryParams._limit)) : DEFAULT_PAGINATION_lIMIT,
-    _sort: queryParams._sort ? String(queryParams._sort) : 'salePrice:ASC',
+    _sort: queryParams._sort ? String(queryParams._sort) : DEFAULT_SALEPRICE_SORT,
   }));
 
   const [totalPage, setTotalPage] = useState(10);
@@ -70,6 +72,7 @@ export default function ListPage() {
       setLoading(false);
     })();
   }, [filters]);
+  
   const handlePageChange = (e: any, page: number) => {
     setFilters((prevFilter) => ({
       ...prevFilter,

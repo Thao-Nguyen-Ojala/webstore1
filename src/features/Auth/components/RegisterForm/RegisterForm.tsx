@@ -1,12 +1,14 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
 import { Avatar, Button, LinearProgress, Typography } from '@material-ui/core';
+
+import { InputField } from '../../../../components';
 import { LockOpenOutlined } from '@material-ui/icons';
+import PasswordField from '../../../../components/form-controls/PasswordField/PasswordField';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { InputField } from '../../../../components';
-import PasswordField from '../../../../components/form-controls/PasswordField/PasswordField';
 import { useStyles } from './RegisterFormUseStyleHook';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 type RegisterFormProps = {
   onSubmit(formValue: formValueObj): void;
@@ -43,7 +45,7 @@ export default function RegisterForm({ onSubmit }: RegisterFormProps) {
     password: yup
       .string()
       .required('Please enter your password')
-      .min(8, 'Please enter at least 8 charater')
+      .min(6, 'Please enter at least 8 charater')
       .max(26, 'Maximum is 26 characters'),
     //.matches(
     //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,

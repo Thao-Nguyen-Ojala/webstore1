@@ -1,12 +1,12 @@
-import { DEFAULT_PAGINATION_lIMIT, DEFAULT_PAGINATION_PAGE, DEFAULT_PAGINATION_TOTAL } from "../constants";
+import { DEFAULT_PAGINATION_PAGE, DEFAULT_PAGINATION_TOTAL, DEFAULT_PAGINATION_lIMIT } from "../constants";
 import { PaginationParams, ProductListResponse, SingleProductResponse } from "../interfaces";
-import axiosClient from "./axiosClient";
 
+import axiosClient from "./axiosClient";
 
 const productApi = {
   async getAll(params: PaginationParams ): Promise<ProductListResponse> {
     //Transform page to _start
-    //_start: the product that it start to count from (ex: _start = 20, it will render from product 21st)
+    //_start: the product that it starts to count from (ex: _start = 20, it will render from product 21st)
     const newParams = {...params};
     newParams._start = !params._page || params._page <= 1 
       ? 0 
